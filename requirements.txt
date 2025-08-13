@@ -1,0 +1,3 @@
+# ABSOLUTELY NO DEPENDENCIES
+# Using only Python 3.11 stdlib + AWS SDK (provided by Lambda runtime)
+# No Pydantic, no external packages - ARM64 compatible

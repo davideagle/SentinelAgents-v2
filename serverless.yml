@@ -1,0 +1,38 @@
+service: sentinelagents-arm64-minimal
+
+frameworkVersion: "3"
+
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: ${opt:region, 'eu-west-1'}
+  stage: ${opt:stage, 'dev'}
+  timeout: 15
+  memorySize: 256
+  architecture: arm64  # ARM64 for cost optimization
+
+# MINIMAL package - ONLY include function files
+package:
+  patterns:
+    - "src/**"
+    - "requirements.txt"
+
+custom:
+  pythonRequirements:
+    dockerizePip: false      # No external deps
+    slim: true
+    strip: false
+    fileName: requirements.txt
+
+functions:
+  handler:
+    handler: src.lambda.agentic.handler.lambda_handler
+    description: ARM64 minimal SentinelAgents handler
+    events:
+      - http:
+          path: /health
+          method: get
+          cors: true
